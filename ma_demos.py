@@ -84,3 +84,84 @@ calculate_win_percentage(5, 10) * 100
 print(calculate_win_percentage(5, 10))
 
 # the remaining topics we will cover in next week or two
+
+"""
+Questions from MA2
+practice with packing/unpacking, declaring and using global variables (and namespaces), when/why use generators, 
+diff between dir/folder, why sudo dangerous, do python conveniences improve code readability, 
+when use command line, can you avoid all errors, how does python find modules when you import them 
+"""
+
+# you use generators to save on memory (don't need to store all vals in a sequence, just
+# generate one at a time as needed)
+# I don't anticipate us making our own generators much in this class
+
+# sudo is dangerous because you could break something system level on your machine
+# such as deleting a file/folder the OS needs
+
+# python conveniences can improve readability; but if you over use them you could start "code golfing" 
+# (write code as short as possible), and that can get hard to read 
+# (human visual spatial system uses spacing and consistency for processing)
+
+# when use command line: when it is more efficient, 
+# when it is easier/more helpful to debug/solve problems
+# when you have to (e.g., there is no GUI way to accomplish your task)
+
+# packing/unpacking
+import math # typically at top of module
+
+def compute_circle_circumference_area(radius: float) -> tuple[float]:
+    circum = 2 * math.pi * radius
+    area = math.pi * radius ** 2
+    return circum, area
+
+results = compute_circle_circumference_area(5.2)
+print(results, type(results))
+result1, result2 = compute_circle_circumference_area(5.2)
+print(result1, result2)
+
+# global vars and namespaces
+print("before x declaration:", dir())
+x = 3
+print("after x declaration:", dir())
+print()
+
+def my_func():
+    print("start of my_func():", dir())
+    # print(x) # UnboundLocalError: local variable 'x' referenced before assignment
+    x = 100
+    print(x)
+    print("end of my_func():", dir())
+
+my_func()
+
+def my_func2():
+    print("start of my_func2():", dir())
+    global x
+    print("middle of my_func2():", dir())
+    x = 10000
+    print(x)
+    print("end of my_func2():", dir())
+
+print()
+print("x before my_func2():", x)
+my_func2()
+print("x after my_func2():", x)
+print()
+
+try:
+    infile = open("dne.txt")
+    infile.close()
+except FileNotFoundError as e: # catch specific error
+    print("**********")
+    print("FileNotFoundError:", e)
+except Exception as e: # catch all errors with general Exception
+    print("~~~~~~~~~")
+    print("Exception:", e)
+print("here")
+
+# how python finds modules
+# it looks in the "python path": current working directory, installed python packages
+# to see your python path:
+import sys
+print(sys.path)
